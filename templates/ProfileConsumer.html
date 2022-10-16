@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+a:link { text-decoration: none; color:inherit; }
+
+
+a:visited { text-decoration: none; color:inherit;}
+
+
+a:hover { text-decoration: none; color:inherit;}
+
+
+a:active { text-decoration: none; color:inherit;}
+
+
+
+</style>
+{% if logged != 'true' %}
+
+{% else %}
+
+<div class="container-fluid" style="padding-top:20px">
+  <div class="shadow p-3 mb-5 bg-body rounded" style="background-image: url({{url_for('static', filename='mellowbackground.jpeg')}});
+            height: 100px;background-size: cover;">
+    <div class="row align-items-center text-center">
+  <div class="col"  style="font-size: 20px; font-family: “Helvetica Neue”, sans-serif;;">
+      <div class="fs-4 fw-normal"  style="font-size: 22px; font-family: “Helvetica Neue”, sans-serif;;">
+      Questions Asked: {{ numQuestions }}</div>
+  </div>
+   <div class="col">
+      <div class=" fw-bold"  style="font-size: 50px; font-family: “Helvetica Neue”, sans-serif;;">
+          {{ name }}</div>
+  </div>
+   <div class="col">
+       <div>
+
+      </div>
+  </div>
+    </div>
+  </div>
+
+</div>
+
+<!--IF LOGIC FOR THE QUESTIONS-->
+<div class="container-fluid" style="padding-left:10vw; padding-right:10vw; min-height:90vh;">
+    <div class="row py-3">
+<!--        SIDEBAR-->
+        <div class="col-md-3" id="sticky-sidebar">
+            <div class="sticky-top">
+                <div class="nav flex-column">
+
+                    <!--THE CREATE A QUESTION MODAL-->
+<div class="modal modal-signin position-static d-block" tabindex="-1" role="dialog" id="modalSignin">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <!-- <h1 class="modal-title fs-5" >Modal title</h1> -->
+        <h1 class="fw-bold mb-0 fs-2">What's on your mind?</h1>
+
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        <form method="POST" action="" enctype="multipart/form-data" id="questioninputform">
+          <div class="form-floating mb-3">
+            <input type="text" name="question" class="form-control rounded-3" id="floatingInput" placeholder="why am I sad?">
+            <label for="floatingInput">...</label>
+          </div>
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" name="questionSubmit" type="submit">Send Question</button>
+<!--          <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>-->
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% if disorder %}
+    <div class="alert alert-success" role="alert">
+     Your question was labeled under the category {{ disorder }} and has been sent to a qualified specialist.
+    </div>
+    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 themed-grid-col">
+            </div>
+<!--        QUESTION AND ANSWERS-->
+        <div class="col-md-8 themed-grid-col">
+                        <hr class="my-4">
+             {% for x in range(0, numQuestions) %}
+
+            <h2 class=" fw-bold"  style="font-size: 28px; font-family: “Helvetica Neue”, sans-serif;;">
+                {{ questions[x]['datey'] }}</h2>
+                <div class="row mb-3">
+                  <div class="col-md-2 themed-grid-col text-center fw-bold"  style="font-size: 20px; font-family: “Helvetica Neue”, sans-serif;;">
+                    You:
+                  </div>
+                  <div class="col-md-10 themed-grid-col">
+                      {{ questions[x]['question'] }}
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-1 themed-grid-col">
+                  </div>
+                   <div class="col-md-2 themed-grid-col text-center fw-bold"  style="font-size: 20px; font-family: “Helvetica Neue”, sans-serif;;">
+                       {% if not questions[x]['answer'] %}
+                       None:
+                       {% else %}
+                       {{ questions[x]['responder'] }}
+                       {% endif %}
+                  </div>
+                  <div class="col-md-9 themed-grid-col">
+                        {% if not questions[x]['answer'] %}
+                        Not yet answered. Check back soon!
+                       {% else %}
+                       {{ questions[x]['answer'] }}
+                       {% endif %}
+                  </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-10 themed-grid-col">
+                  </div>
+                    <div class="col-md-1 themed-grid-col">
+                        <button type="button" class="btn btn-outline-secondary">Like</button>
+                  </div>
+                    <div class="col-md-1 themed-grid-col">
+                        <button type="button" class="btn btn-outline-secondary">Dislike</button>
+                  </div>
+                </div>
+                <hr class="my-4">
+
+
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock content %}

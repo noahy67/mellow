@@ -1,0 +1,134 @@
+{% extends "layout.html" %}
+{% block content %}
+<div id="home" style="min-height:1000px; ">
+<style>
+a:link { text-decoration: none; color:inherit; }
+
+
+a:visited { text-decoration: none; color:inherit;}
+
+
+a:hover { text-decoration: none; color:inherit;}
+
+
+a:active { text-decoration: none; color:inherit;}
+.carousel .carousel-item {
+  height: 600px;
+}
+
+.carousel-item img {
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    min-height: 500px;
+}
+.carousel-control-prev-icon {
+ background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+}
+
+.bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+      }
+
+      .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+      background-image: url({{url_for('static', filename='ezgif-5-4fb134e599.jpeg')}});
+      background-size: cover;
+
+</style>
+
+  <div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <img src="{{url_for('static', filename='ment-hleahtheads.jpeg')}}" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+      </div>
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold lh-1 mb-3">Get direct advice from the best mental health professional for your needs</h1>
+        <p class="lead">Through the use of Co:here Natural Language Processing, we match your question directly to the expert who can give you the answer you require.</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+          <div>
+          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 rounded-5">
+            <a href="{{ url_for('signupConsumer') }}">Sign Up as a Patient</a></button>
+            </div>
+          <div>
+          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 rounded-5">
+            <a href="{{ url_for('signupProfessional') }}">Sign Up as a Professional</a></button>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="justify-content-center d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
+    <div class="text-bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" style="height: 400px">
+      <div class="my-3 py-3">
+        <h2 class="display-5 fw-bold lh-1 mb-3">Co:here</h2>
+        <p class="lead">We use Cohere's NPL technology to find the expert who can best answer your question and serve it directly to them.</p>
+      </div>
+      <button type="button" class="btn btn-light btn-lg px-4 gap-3 rounded-5">
+            <a href="https://cohere.ai/">learn More</a></button>
+    </div>
+    <div class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" style="height:400px">
+      <div class="my-3 p-3">
+        <h2 class="display-5 fw-bold lh-1 mb-3">CockroachDB</h2>
+        <p class="lead">We use CockroachDB to store all our data, ensuring it is unkillable and that you always have access to the help you want.</p>
+      </div>
+      <button type="button" class="btn btn-dark btn-lg px-4 gap-3 rounded-5">
+            <a href="https://www.cockroachlabs.com/lp/serverless/?utm_source=google&utm_medium=cpc&utm_campaign=g-search-na-west-bofu-pipe-bra-core-exact&utm_term=e-cockroachdb-c&utm_content=lp549486875447&utm_network=g&_bt=549486875447&_bk=cockroachdb&_bm=e&_bn=g&gclid=Cj0KCQjw166aBhDEARIsAMEyZh7SlXTxKKo6L2YzSUkpp2I8chg3QpiK2crz3leunpcaJb-INJhuljoaAurpEALw_wcB">Learn More</a></button>
+    </div>
+  </div>
+
+
+
+    </div>
+{% endblock content %}

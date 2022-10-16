@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    .card {
+  flex-direction: row;
+  align-items: center;
+  border-radius: 0%;
+}
+.card img {
+  width: 30%;
+  border-radius: 0%;
+}
+</style>
+<div id="dashboard">
+<div class="container m-10" style="padding-left:10vw; padding-right:10vw; min-height:90vh;">
+{% if logged == 'true' %}
+    <form method="POST" action="">
+    <h1 class="mt-5 text-center" style="font-size: 80px; font-family: Garamond, serif;">Hello {{name}}!</h1>
+        <button type="submit" name="signout" class="btn btn-outline-danger mb-3">Sign Out</button>
+    </form>
+    {% for x in range(0, looplen) %}
+
+<div class="card border border-dark">
+    <img class="card-img" style="height: 100%; width: 20vw;" src="{{ images[x] }}" />
+  <div class="card-body " >
+        {% if results[x] == 'positive' %}
+        <h2 class="card-title">Result:
+        <span style="color: red">Positive</span>
+        </h2>
+        {% else %}
+        <h2 class="card-title">Result:
+        <span style="color: green">Negative</span>
+        </h2>
+        {% endif %}
+    <h5 class="card-text">Filename: {{ filenames[x] }}</h5>
+    <h5 class="card-text">Probability: {{ probs[x] }}%</h5>
+
+  </div>
+<div class="card-footer text-center bg-white border-0" >
+    <a href="#" class="btn btn-primary">Learn about this result &raquo;</a>
+    </div>
+</div>
+<div class="card-footer mb-5 text-white text-center border border-dark bg-dark" style="font-size: 18px;">
+      {{ times[x] }}
+  </div>
+
+    {% endfor %}
+
+{% else %}
+
+<div class="hero text-center" id="outsidepage" style="padding-top: 20vh" >
+<div class="text-center" style="position: relative; font-family: Garamond, serif;">
+    <h1 class="display-5" style="font-size: 120px">Hello!</h1>
+
+    <p class="display-5" style="font-size: 50px">Please create an account to track your results</p>
+    <div class="col-lg-6 mx-auto py-3">
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <button type="button" class="btn btn-primary btn-lg px-4 gap-3 rounded-5">
+            <a style="text-decoration: none; color: inherit;" href="{{ url_for('signup') }}">Sign Up </a></button>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+{% endif %}
+</div>
+</div>
+{% endblock content %}

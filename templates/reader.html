@@ -1,0 +1,253 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+a:link { text-decoration: none; color:inherit; }
+
+
+a:visited { text-decoration: none; color:inherit;}
+
+
+a:hover { text-decoration: none; color:inherit;}
+
+
+a:active { text-decoration: none; color:inherit;}
+</style>
+
+<!--INFO ON 3 NETWORKS-->
+<div class="container px-4 pt-5 pb-2" id="featured-3">
+    <h2 class="pb-2 border-bottom text-center">How our reader works</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-white bg-gradient fs-2 mb-3">
+<!--          <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>-->
+            <img width="40vw" height="40vw" src="https://i.ibb.co/9qSWfhQ/1-icon.png">
+        </div>
+        <h2>Quality Control 1</h2>
+        <p>The first of the three networks, QC1 works to identify if your image is a LFIA cassette, or not.</p>
+
+      </div>
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-white bg-gradient fs-2 mb-3">
+          <img width="40vw" height="40vw" src="https://i.ibb.co/72SNB6j/2-icon.png">
+        </div>
+        <h2>Quality Control 2</h2>
+        <p>The second network makes sure you're running a properly used cassette, and your image is good
+            enough quality to be classified.
+         This one classifies between good quality, poor quality, too high exposure, or empty cassette.</p>
+      </div>
+      <div class="feature col">
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-white bg-gradient fs-2 mb-1">
+          <img width="40vw" height="40vw" src="https://i.ibb.co/7GjVFCC/3-icon.png">
+        </div>
+        <h2>Final Classification</h2>
+        <p>The last network determines if your cassette is positive or negative.</p>
+      </div>
+    </div>
+  </div>
+
+<!--TEST IMAGE BANK-->
+<div class="container px-4 py-2" id="custom-cards">
+    <h2 class="pb-2 border-bottom text-center">Didn't take a test? Try the reader with the images below!</h2>
+    <div class="row row-cols-1 row-cols-lg-3 align-items-center g-4 py-5">
+      <div class="col">
+           <a href="https://i.ibb.co/RYPjTW3/Positive-cassette.jpg" target="_blank" download>
+        <div class="card card-cover  overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('https://i.ibb.co/RYPjTW3/Positive-cassette.jpg');
+       width: 300px; height: 425px; background-size: cover; background-repeat: no-repeat;">
+          <div class="d-flex flex-column p-5 pb-3 text-white text-shadow-1">
+            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Positive</h2>
+          </div>
+        </div>
+           </a>
+      </div>
+        <div class="col">
+           <a href="https://i.ibb.co/cJTzPgt/Negative-cassette.jpg" target="_blank" download>
+        <div class="card card-cover  overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('https://i.ibb.co/cJTzPgt/Negative-cassette.jpg');
+       width: 300px; height: 425px; background-size: cover; background-repeat: no-repeat;">
+          <div class="d-flex flex-column p-5 pb-3 text-white text-shadow-1">
+            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Negative</h2>
+          </div>
+        </div>
+           </a>
+      </div>
+
+       <div class="col">
+           <a href="https://i.ibb.co/LvkmRNr/Empty-cassette.jpg" target="_blank" download>
+        <div class="card card-cover  overflow-hidden text-bg-dark rounded-4 shadow-lg" style="background-image: url('https://i.ibb.co/LvkmRNr/Empty-cassette.jpg');
+       width: 300px; height: 425px; background-size: cover; background-repeat: no-repeat;">
+          <div class="d-flex flex-column p-5 pb-3 text-white text-shadow-1">
+            <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Empty Cassette</h2>
+          </div>
+        </div>
+           </a>
+        </div>
+        </div>
+</div>
+
+<!--ACTUAL READER-->
+  <div class="container" style="padding-top:40px;">
+<!--FULL LFIA READER -->
+<div class="shadow p-3 mb-5 bg-body rounded" style="min-height:1000px; ">
+    <form method="POST" action="" enctype="multipart/form-data">
+<figure class="text-center">
+
+    {% if logged == 'true' %}
+    <p>Want to view your past results?
+    <span style="color: blue"><a href="{{ url_for('dashboard_page') }}">Go to dashboard</a></span>
+    </p>
+    {% else %}
+    <p>Want to track your results?
+    <span style="color: blue"><a href="{{ url_for('signup') }}">Create an account</a></span>
+    </p>
+    {% endif %}
+
+    <h2 class="mt-2">
+        <span style="color: blue; font-size: 40px;">1 </span>Choose Files
+        <span style="color: blue; font-size: 40px;">2 </span>Upload
+        <span style="color: blue; font-size: 40px;">3 </span>Get Results!
+    </h2>
+
+    {% if error == 'format' %}
+    <div class="alert alert-danger" role="alert">
+     Error: Incorrect file format. Files must be .jpg, .png, or .heic
+    </div>
+    {% elif error == 'noshow' %}
+    <div class="alert alert-danger" role="alert">
+     Error: No files selected. Please upload a file to continue.
+    </div>
+    {% endif %}
+
+        <div class="mb-3">
+<!--          <label for="formFileMultiple" class="form-label">Select LFIA Cassette Pictures</label>-->
+          <input class="form-control" type="file" name="file[]" id="formFileMultiple" multiple>
+        </div>
+
+<!--        UPLOAD AND CLEAR ALL BUTTONS-->
+        <div class="d-grid gap-10 d-md-block">
+    <button type="submit" name="show" class="btn btn-outline-secondary mb-3">Upload</button>
+        <button type="submit" name="clear" class="btn btn-outline-danger mb-3">Clear</button>
+    </div>
+
+<!--DISPLAY CHOSEN FILES-->
+       <hr>
+    {% for file in files %}
+      <img src="{{ file }}" style="width: 100px">
+<!--    <h1> {{ file }}</h1>-->
+    {% endfor %}
+      <hr>
+
+        <div class="d-grid gap-2 col-6 mx-auto">
+  <button type="submit" name="run" class="btn btn-outline-primary">get cassette results</button>
+</div>
+
+
+
+<!--        ALBUM CARD DISPLAY OF LFIA READER RESULTS-->
+
+</figure>
+        </form>
+    {% if indicator == 'qcfail' %}
+<figure class="text-center">
+<div class="modal modal-alert position-static d-block py-4" tabindex="-1" role="dialog" id="modalChoice1" style="outline:none">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-10 shadow py-1">
+      <div class="modal-body p-10 text-center">
+        <h5 class="mb-0">Warning: Quality Control Failed</h5>
+        <p class="mb-0">Our neural network detected that one or more images failed the quality control tests. The image(s) were:</p>
+          <ul class="list-group list-group-flush">
+              {% for file, fail in qcresults.items() %}
+                <li class="list-group-item">{{ file }}: <span style="color: red">{{ fail }}</span>
+                </li>
+              {% endfor %}
+        </ul>
+      </div>
+      <div class="modal-footer flex-nowrap p-0 justify-content-center">
+        <form method="POST" action="" enctype="multipart/form-data">
+        <button type="button" class="btn btn-lg fs-6  text-decoration-none col-12 m-0 rounded outline"><a href="{{ url_for('reader') }}"> Upload a different picture</a></button>
+        <button type="submit" name="failqc" class="btn btn-lg fs-6 text-secondary text-decoration-none col-12 m-0 rounded outline float-right">Continue</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</figure>
+   {% elif indicator == 'qc1fail' %}
+<figure class="text-center">
+<div class="modal modal-alert position-static d-block py-4" tabindex="-1" role="dialog" id="modalChoice2" style="outline:none">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-10 shadow py-1">
+      <div class="modal-body p-10 text-center">
+        <h5 class="mb-0">Warning: Quality Control Failed</h5>
+        <p class="mb-0">The following images were flagged by our quality control neural networks:</p>
+          <ul class="list-group list-group-flush">
+              {% for file, fail in qcresults.items() %}
+                <li class="list-group-item">{{ file }}: <span style="color: red">{{ fail }}</span>
+                </li>
+              {% endfor %}
+        </ul>
+      </div>
+      <div class="modal-footer flex-nowrap p-0  justify-content-center">
+          <form method="POST" action="" enctype="multipart/form-data">
+        <button type="button" class="btn btn-lg fs-6  text-decoration-none col-12 m-0 rounded outline"><a href="{{ url_for('reader') }}"> Upload a different picture</a></button>
+        <button type="submit" name="failqc1" class="btn btn-lg fs-6 text-secondary text-decoration-none col-12 m-0 rounded outline float-right">Continue</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+</figure>
+    {% else %}
+
+    {% endif %}
+
+    {% if redirect == 'yes' %}
+    <p>Upload success. See new results in your
+    <span style="color: blue"><a href="{{ url_for('dashboard_page') }}">dashboard</a></span>
+    </p>
+
+    {% else %}
+
+<div class="row">
+    {% for x in range(0, looplength) %}
+    <div class="col-lg-4 col-md-6 col-sm-12">
+          <div class="card mb-5 shadow p-3 mb-5 bg-body rounded">
+            <img class="card-img" src="{{ files[x] }}" />
+
+
+            <div class="card-body">
+              <div class="card-title">
+                   {% if wordResults[x] == 'positive' %}
+                    <h2>Result:
+                    <span style="color: red">{{ wordResults[x] }}</span>
+                    </h2>
+                    {% else %}
+                    <h2>Result:
+                    <span style="color: green">{{ wordResults[x] }}</span>
+                </h2>
+                    {% endif %}
+              </div>
+              <div class="card-text">
+                <p>
+                  {% if wordResults[x] == 'positive' %}
+                    <h5>Probability: {{ predictions[x][0][0][1] }}%</h5>
+                    {% else %}
+                    <h5>Probability: {{ predictions[x][0][0][0] }}%</h5>
+                    {% endif %}
+                  <h5>Filename: {{ filenames[x] }}</h5>
+                </p>
+              </div>
+              <a href="#" class="btn btn-outline-primary rounded-0 float-end"
+                >Learn about your result</a
+              >
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+</div>
+
+    {% endif %}
+
+
+</div>
+  </div>
+
+{% endblock content %}

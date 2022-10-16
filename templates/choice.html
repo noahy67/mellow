@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+ .hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+
+    justify-content: center;
+}
+
+.hero::before {
+      content: "";
+      background-image: url('https://i.ibb.co/VqDkRTL/ai-person.jpg');
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      opacity: 0.6;
+}
+a:link { text-decoration: none; color:inherit; }
+
+
+a:visited { text-decoration: none; color:inherit;}
+
+
+a:hover { text-decoration: none; color:inherit;}
+
+
+a:active { text-decoration: none; color:inherit;}
+
+</style>
+<!--style="background-image: url('https://i.ibb.co/VqDkRTL/ai-person.jpg');-->
+<!--min-height: 100vh;background-repeat: no-repeat; background-attachment: fixed;-->
+<!--    background-size: cover;"-->
+<div class="hero text-center" id="outsidepage" style="padding-top: 20vh" >
+<div class="text-center" style="position: relative; font-family: Garamond, serif;">
+    <h1 class="display-5" style="font-size: 120px">Hello!</h1>
+
+    <p class="display-5" style="font-size: 50px">Please select an option below</p>
+    <div class="col-lg-6 mx-auto py-3">
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <button type="button" class="btn btn-dark btn-lg px-4 gap-3 rounded-5">
+            <a href="{{ url_for('select_page') }}">Take a Test</a></button>
+        <button type="button" class="btn btn-dark btn-lg px-4 rounded-5">
+            <a href="{{ url_for('index') }}">Get a Result</a></button>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+{% endblock content %}

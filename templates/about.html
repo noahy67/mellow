@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+{% block content %}
+<!--<h1 class="mt-3">How it works</h1>-->
+<style>
+  .myimg{
+  width:150px;
+  height:150px;
+  object-fit:cover;
+}
+
+h2 {
+font-family: Garamond, serif;
+}
+</style>
+
+<div id="about">
+<!--  DATASET SECTION-->
+<!--  <div class="row" style="padding-top: 50px">-->
+<!--      <h1 class="featurette-heading fw-normal lh-1" style="font-family: georgia; padding-bottom: 50px; padding-left: 50px">The dataset</h1>-->
+<!--    <div class="col text-center">-->
+<!--      <img src="https://i.ibb.co/VNQzp6z/Abbott-Binax-NOW-LFIA-Pic.webp" class="myimg" alt="Abbott-Binax-NOW-LFIA-Pic" border="0" />-->
+<!--      <figcaption> Abbott </figcaption>-->
+<!--    </div>-->
+<!--    <div class="col text-center">-->
+<!--      <img src="https://i.ibb.co/tXTTVgV/Biomedomics-LFIA-Pic.jpg" class="myimg" alt="Biomedomics-LFIA-Pic" border="0" />-->
+<!--      <figcaption> Biomedomics </figcaption>-->
+<!--    </div>-->
+<!--    <div class="col text-center">-->
+<!--      <img src="https://i.ibb.co/ZxJT14Z/i-Health-LFIA-Pic.jpg" class="myimg" alt="i-Health-LFIA-Pic" border="0" />-->
+<!--      <figcaption> iHealth </figcaption>-->
+<!--    </div>-->
+<!--    <div class="col text-center">-->
+<!--      <img src="https://i.ibb.co/FwhpfY5/flowflex-LFIA-Pic.png" class="myimg" alt="flowflex-LFIA-Pic" border="0" />-->
+<!--      <figcaption> FlowFlex </figcaption>-->
+<!--    </div>-->
+<!--    <div class="col text-center">-->
+<!--      <img src="https://i.ibb.co/Jt7dSnh/ongo-LFIA-Pic.jpg" class="myimg" alt="ongo-LFIA-Pic" border="0" />-->
+<!--      <figcaption> On/Go </figcaption>-->
+<!--    </div>-->
+<!--</div>-->
+<!--  <p class="lead" style="padding-left: 100px; padding-top: 50px">5 test kit brands were used to create the <span class="text-primary">training, validation, and testing sets:</span></p>-->
+<!--  <h3 class="lead" style="padding-left: 150px">1. Abbott</h3>-->
+<!--  <h3 class="lead" style="padding-left: 150px">2. Biomedomics</h3>-->
+<!--  <h3 class="lead" style="padding-left: 150px">3. iHealth</h3>-->
+<!--  <h3 class="lead" style="padding-left: 150px">4. FlowFlex</h3>-->
+<!--  <h3 class="lead" style="padding-left: 150px; padding-bottom: 50px">5. On/Go</h3>-->
+
+
+<!--  BLOCK PARTS-->
+  <div class="container marketing" style="padding-top: 5vh">
+    <p class="text-danger text-center">UPDATE: <span style="color: black">Our neural networks have been
+      retrained to be more accurate and work on more LFIA cassette brands! Newer results and information coming soon!</span></p>
+
+    <hr class="featurette-divider" >
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading fw-normal lh-1">What is a LFIA test anyways?</h2>
+        <p class="lead">LFIA tests, or Lateral Flow Immunoassay tests, are a type of immunoassay that are used in what the general public best known as “COVID-19 Rapid Tests.” The test functions by taking a sample through a nasal swab, which is then mixed with a lysis buffer; the buffer solution is dropped in the S-well of a white cassette, and as the buffer migrates down the cassette, the result of the antigen test can be interpreted by the presence (or lack thereof) of two bands, a control band, as well as a test band. Right now, LFIA tests have been given emergency use authorization (EUA) by the Food and Drug Administration to help combat the SARS-CoV-2 pandemic in order to harness the uniquely rapidly scalable nature of this technology to quickly identify and contain SARS-CoV-2 cases. However, accurate reading of the antigen test result is critical, therefore this project aims to mitigate human error by harnessing machine learning to provide fast, accurate, and precise interpretation of LFIA cassette results.</p>
+      </div>
+      <div class="col-md-5 order-md-1">
+          <img src="https://i.ibb.co/mBbP29g/Lateral-flow-assay-architecture.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500"/>
+      </div>
+    </div>
+
+
+    <hr class="featurette-divider" >
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading fw-normal lh-1">What COVID test results were used?</h2>
+        <p class="lead">In order to let machine learning interpret the results, the neural network must first be trained on a large quantity of tests. In total, a total of 44,247 images of positive cassettes and 34,197 images of negative cassettes were collected for training and validation sets. To construct these training datasets, SARS-CoV-2 nucleocapsid proteins were mixed with PBS to create a working stock that could be diluted to create a spectrum of COVID-positive solutions with concentrations ranging from 0ng to 1ng in order to introduce a strong sense of variety in the dataset to help the neural network identify positive test results regardless of the strength of the band. To account for variability in terms of unique camera architectures and aspect ratios that exist in different smartphone devices, a range of various phone models were also used in capturing the images that made up the dataset. </p>
+      </div>
+      <div class="col-md-5">
+          <img src="https://i.ibb.co/KWHfpTg/Screen-Shot-2022-08-01-at-1-25-13-PM.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500"/>
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <h2 class="featurette-heading fw-normal lh-1">What does the neural network actually look at?</h2>
+        <p class="lead">After your image is uploaded, it undergoes image processing, as demonstrated below, where the image orientation, shadows, and degree of focus, amongst other factors, are taken into account for quality control. Moreover, as seen in the activation maps, the neural network is honing in on and looking at the LFIA test result section, more specifically, discerning the concentration of the control and testing lines. In this way, the original image is processed so that it is converted first to grayscale, which is then further overlaid with a heat map; the intersection of these two finally then create the activation map hones in on the strips present in the testing well, in order for the neural network to make a final judgment call on the correct interpretation of the test result. </p>
+      </div>
+      <div class="col-md-5 order-md-1">
+          <img src="https://i.ibb.co/XVPyCbr/Screen-Shot-2022-08-11-at-4-07-12-PM.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500"/>
+
+      </div>
+    </div>
+
+    <hr class="featurette-divider">
+
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading fw-normal lh-1">Does it really work?</h2>
+        <p class="lead">After training, an at-home study was conducted where the newly trained neural network was put to the test against testing batches that the machine learning algorithm had never seen or interacted with before, meaning they were neither used in the training nor validation set. During this rigorous testing, the network achieved a 99.37% agreement in 1117 total at home tests, and a 100% agreement in 64 tests done in a clinical setting. </p>
+      </div>
+      <div class="col-md-5">
+          <img src="https://i.ibb.co/C293tJz/Screen-Shot-2022-08-01-at-1-24-26-PM.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500"/>
+
+      </div>
+    </div>
+
+
+  </div>
+  </div>
+
+{% endblock content %}

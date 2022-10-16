@@ -1,0 +1,301 @@
+{% extends "layout.html" %}
+{% block content %}
+    <!--  <div class="modal-dialog" style="top: 10vh; right: -30vw;" role="document">-->
+<style>
+<!--    #grad {-->
+<!--    background-color: white;-->
+
+<!--  background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0,0));-->
+<!--}-->
+
+
+     #form {
+     overflow: hidden;
+     max-width: 100%;
+    text-align: center;
+    position: relative;
+    margin-top: 20px
+}
+
+#form fieldset {
+overflow: hidden;
+    background: white;
+    border: 0 none;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding-bottom: 20px;
+    position: relative
+}
+
+.finish {
+overflow: hidden;
+    text-align: center
+}
+
+#form fieldset:not(:first-of-type) {
+    display: none
+}
+
+#form .previous-step, .next-step {
+overflow: hidden;
+    width: 150px;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 0px;
+    cursor: pointer;
+    padding: 5px 5px;
+    margin: 10px 5px 10px 0px;
+    float: right
+}
+
+.form, .previous-step {
+    background: #616161;
+}
+
+.form, .next-step {
+    background: #0d6efd;
+}
+
+#form .previous-step:hover,
+#form .previous-step:focus {
+    background-color: #000000
+}
+
+#form .next-step:hover,
+#form .next-step:focus {
+    background-color: #0d6efd
+}
+
+
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: lightgrey
+}
+
+#progressbar .active {
+      color: #000;
+}
+
+#progressbar li {
+    list-style-type: none;
+    font-size: 15px;
+    width: 25%;
+    float: left;
+    padding: 0px;
+    position: relative;
+    font-weight: 400
+}
+
+#progressbar #step1:before {
+    content: "1"
+}
+
+#progressbar #step2:before {
+    content: "2"
+}
+
+#progressbar #step3:before {
+    content: "3"
+}
+
+#progressbar #step4:before {
+    content: "4"
+}
+
+#progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    color: #ffffff;
+    background: lightgray;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px
+
+}
+
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: lightgray;
+    position: absolute;
+    left: 0vw;
+    top: 25px;
+    z-index: -1
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: #0d6efd
+}
+
+.progress {
+overflow: hidden;
+    height: 20px
+}
+
+.progress-bar {
+overflow: hidden;
+    background-color: #0d6efd
+}
+a:link { text-decoration: none; color:inherit; }
+
+
+a:visited { text-decoration: none; color:inherit;}
+
+
+a:hover { text-decoration: none; color:inherit;}
+
+
+a:active { text-decoration: none; color:inherit;}
+</style>
+
+        <div class="row justify-content-center">
+            <div class="text-center p-0">
+                <div class="px-0 pt-4 pb-0 mt-3 mb-3 container">
+                    <form id="form">
+                         <p class="text-danger">Please excuse the blankness! <span style="color: black">This page is a work in progress</span></p>
+                        <ul id="progressbar">
+                            <li class="active" id="step1">
+                                <strong>Select Test Type</strong>
+                            </li>
+                            <li id="step2"><strong>Take Test</strong></li>
+                            <li id="step3"><strong>Timer</strong></li>
+                            <li id="step4"><strong>Get Result</strong></li>
+                        </ul>
+<!--                        <div class="progress">-->
+<!--                            <div class="progress-bar"></div>-->
+<!--                        </div> <br>-->
+
+                        <fieldset>
+                            <h2>Select the test type and brand of test</h2>
+                            <div style="min-height:40vh;">
+                            </div>
+                            <input type="button" name="next-step"
+                                class="next-step rounded" value="Next Step" />
+                        </fieldset>
+                        <fieldset>
+                            <h2>Please follow the instructions to take the test</h2>
+                            <div style="min-height:40vh;">
+                            </div>
+                            <input type="button" name="next-step"
+                                class="next-step rounded" value="Next Step" />
+                            <input type="button" name="previous-step"
+                                class="previous-step rounded"
+                                value="Previous Step" />
+                        </fieldset>
+                        <fieldset>
+                            <h2>Please wait for the timer to finish before continuing</h2>
+                            <div style="min-height:40vh;">
+                            </div>
+                            <input type="button" name="next-step"
+                                class="next-step rounded" value="Final Step" />
+                            <input type="button" name="previous-step"
+                                class="previous-step rounded"
+                                value="Previous Step" />
+                        </fieldset>
+                        <fieldset>
+                            <div class="finish">
+                                <h2 class="text text-center">
+                                    <strong>Please click the button to be redirected</strong>
+                                </h2>
+                            </div>
+                            <div style="min-height:40vh;">
+                            </div>
+<!--                            <input type="button" name="next-step"-->
+<!--                                   class="next-step rounded" value="Go to Get a Result"/>-->
+                            <button type="button" name="next-step" class="next-step rounded">
+                            <a href="{{ url_for('index') }}">Get a Result</a></button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+<script src=
+'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'>
+    </script>
+<script>
+var scrollEventHandler = function()
+{
+  window.scroll(0, window.pageYOffset)
+}
+
+window.addEventListener("scroll", scrollEventHandler, false);
+
+$(document).ready(function () {
+    var currentGfgStep, nextGfgStep, previousGfgStep;
+    var opacity;
+    var current = 1;
+    var steps = $("fieldset").length;
+
+    setProgressBar(current);
+
+    $(".next-step").click(function () {
+
+        currentGfgStep = $(this).parent();
+        nextGfgStep = $(this).parent().next();
+
+        $("#progressbar li").eq($("fieldset")
+            .index(nextGfgStep)).addClass("active");
+
+        nextGfgStep.show();
+        currentGfgStep.animate({ opacity: 0 }, {
+            step: function (now) {
+                opacity = 1 - now;
+
+                currentGfgStep.css({
+                    'display': 'none',
+                    'position': 'relative'
+                });
+                nextGfgStep.css({ 'opacity': opacity });
+            },
+            duration: 500
+        });
+        setProgressBar(++current);
+    });
+
+    $(".previous-step").click(function () {
+
+        currentGfgStep = $(this).parent();
+        previousGfgStep = $(this).parent().prev();
+
+        $("#progressbar li").eq($("fieldset")
+            .index(currentGfgStep)).removeClass("active");
+
+        previousGfgStep.show();
+
+        currentGfgStep.animate({ opacity: 0 }, {
+            step: function (now) {
+                opacity = 1 - now;
+
+                currentGfgStep.css({
+                    'display': 'none',
+                    'position': 'relative'
+                });
+                previousGfgStep.css({ 'opacity': opacity });
+            },
+            duration: 500
+        });
+        setProgressBar(--current);
+    });
+
+    function setProgressBar(currentStep) {
+        var percent = parseFloat(100 / steps) * current;
+        percent = percent.toFixed();
+        $(".progress-bar")
+            .css("width", percent + "%")
+    }
+
+    $(".submit").click(function () {
+        return false;
+    })
+});
+</script>
+{% endblock content %}

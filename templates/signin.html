@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% if status=='no' %}
+    <div class="alert alert-danger" role="alert">
+     Error: Could not log in. Please try again or create an account.
+    </div>
+    {% endif %}
+
+<div class="container-md text-center mt-5" style="max-width: 500px; min-height: 100vh">
+<div id="signup" class="form-signin" >
+     {% if status=='no' %}
+    <div class="alert alert-danger" role="alert">
+     Error: Could not log in. Please try again or create an account.
+    </div>
+    {% endif %}
+  <form method="POST" action="" enctype="multipart/form-data">
+<!--    <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+    <h1 class="h3 mb-3 fw-bold">Please sign in</h1>
+
+    <div class="form-floating">
+      <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+
+<!--    <div class="checkbox mb-3">-->
+<!--      <label>-->
+<!--        <input type="checkbox" value="remember-me"> Remember me-->
+<!--      </label>-->
+<!--    </div>-->
+    <button class="w-100 btn btn-lg btn-dark rounded-5" type="submit" name="signin">Sign in</button>
+
+    <button type="button" class="btn btn-lg fs-6 text-primary text-decoration-none col-6 m-0 w-100 rounded-0"><a href="{{ url_for('signupConsumer') }}">Create a Patient account</a></button>
+         <button type="button" class="btn btn-lg fs-6 text-primary text-decoration-none col-6 m-0 w-100 rounded-0"><a href="{{ url_for('signupProfessional') }}">Create a Professional account</a></button>
+
+
+
+  </form>
+
+
+
+</div>
+    </div>
+{% endblock content %}
