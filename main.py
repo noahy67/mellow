@@ -176,6 +176,10 @@ def retrieve_user_q(uid):
     cursor.execute("SELECT * FROM questions WHERE questioner_id in (%s)", (uid,))
     return cursor.fetchall()
 
+def retrieve_user_qSPECIAL(uid):
+    cursor.execute("SELECT * FROM questions WHERE responder_id in (%s)", (uid,))
+    return cursor.fetchall()
+
 #checking if user is patient or pro. returns true when patient, false when pro
 def check_user_type(email):
     cursor.execute("SELECT uid FROM patients WHERE email in (%s)", (email,))
@@ -327,13 +331,13 @@ def profileConsumerFuncs():
 def profileProfessional1():
     curr_user.name = get_user_nameSPECIAL(curr_user.userID)[0]['name']
     name = curr_user.name
-    curr_user.questions = retrieve_user_q(curr_user.userID)
+    curr_user.questions = retrieve_user_qSPECIAL(curr_user.userID)
     questions = curr_user.questions
     numQuestions = 0
-    qNAME = ""
+    qNAME = "Asker:"
     if questions:
         numQuestions = len(questions)
-        qNAME = get_user_name(questions[0]['questioner_id'])
+        qNAME = "Asker:"
     logged = curr_user.loggedIn
 
     return render_template('profileProfessional.html', name=name, logged=logged, questions=questions, numQuestions=numQuestions, type=curr_user.type, qNAME=qNAME)
@@ -342,13 +346,13 @@ def profileProfessional1():
 @app.route("/profileProfessional", methods=['POST', 'GET'])
 def profileProfessionalFuncs():
     name = curr_user.name
-    curr_user.questions = retrieve_user_q(curr_user.userID)
+    curr_user.questions = retrieve_user_qSPECIAL(curr_user.userID)
     questions = curr_user.questions
     numQuestions = 0
-    qNAME = ""
+    qNAME = "Asker:"
     if questions:
         numQuestions = len(questions)
-        qNAME = get_user_name(questions[0]['questioner_id'])
+        qNAME = "Asker:"
     logged = curr_user.loggedIn
     if 'submitAnswer' in request.form:
         answer = request.form['answer']
