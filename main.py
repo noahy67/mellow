@@ -6,7 +6,6 @@ from psycopg.errors import ProgrammingError
 import json
 from flask import Flask, jsonify, request, render_template, url_for, redirect
 import UserInfo
-import time
 from datetime import date
 import json
 import os
@@ -16,17 +15,7 @@ import numpy as np
 from dotenv import load_dotenv
 load_dotenv()
 
-#
-# def exec_statement(conn, stmt):
-#     try:
-#         with conn.cursor() as cur:
-#             cur.execute(stmt)
-#             row = cur.fetchone()
-#             conn.commit()
-#             if row: print(row[0])
-#     except ProgrammingError:
-#         return
-
+#setting environment variable
 conn = psycopg2.connect(os.environ["DATABASE_URL"])
 
 with conn.cursor() as cur:
@@ -49,19 +38,19 @@ connection.set_session(autocommit=True)
 
 cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
-
+# Retrieve all data from disorders table
 def db_get_all():
     cursor.execute("SELECT * FROM disorders")
     results = cursor.fetchall()
     return results
 
-
+# Retrieve all data for specialists with name 'name'
 def db_get_by_name(name):
     cursor.execute('SELECT * FROM specialists WHERE name = %s', (name, ))
     result = cursor.fetchone()
     return result
 
-
+# Retrieve all data for specialists covering the given disorder
 def db_filter_listings(disorder):
     cursor.execute(
         'SELECT * FROM specialists WHERE disorder = %s',
@@ -69,7 +58,7 @@ def db_filter_listings(disorder):
     result = cursor.fetchall()
     return result
 
-
+# Create specialist entry
 def db_create_specialist(disorder, name, num):
     cursor.execute(
         "INSERT INTO specialists (disorder, name, num) VALUES (%s, %s, %s)",
@@ -77,66 +66,37 @@ def db_create_specialist(disorder, name, num):
     result = cursor.fetchall()
     return result
 
-
+# Delete specialist entry
 def db_delete_listing(name):
     cursor.execute("DELETE FROM specialists WHERE name = %s RETURNING name", (name, ))
     result = cursor.fetchall()
     return result
 
-
-# Routes!
-# @app.route('/', methods=['GET'])
-# def index():
-#     return jsonify(db_get_all())
-#
-#
-# @app.route("/<id>", methods=['GET'])
-# def get_by_name(name):
-#     specialist = db_get_by_name(name)
-#     if not specialist:
-#         return jsonify({"error": "invalid name", "code": 404})
-#     return jsonify(specialist)
-#
-#
-# @app.route("/search", methods=['GET'])
-# def filter_listings():
-#     result = db_filter_listings(int(request.args.get('min_year')),
-#                                 request.args.get('group'))
-#     return jsonify(result)
-#
-#
-# @app.route("/", methods=['POST'])
-# def create_specialist():
-#     new_specialist = request.json
-#     try:
-#         res = db_create_specialist(new_specialist['disorder'], new_specialist['name'],
-#                                new_specialist['num'])
-#         return jsonify(res)
-#
-#     except Exception as e:
-#         return jsonify({"error": str(e)})
-#
-
+# Delete question entry
 def db_delete_question(uid):
     cursor.execute("DELETE FROM questions WHERE uid = %s RETURNING uid", (uid, ))
     result = cursor.fetchall()
     return result
 
+# Update responder_id for questions entry
 def db_set_responder(uid):
     cursor.execute("UPDATE questions SET responder_uid = %s RETURNING uid", (uid, ))
     result = cursor.fetchall()
     return result
 
+# Update questioner_id for questions entry
 def db_set_questioner(uid):
     cursor.execute("UPDATE questions SET questioner_uid = %s RETURNING uid", (uid, ))
     result = cursor.fetchall()
     return result
 
+# Retrieve all questions from given uid
 def db_set_question_list(uid):
     cursor.execute("SELECT * FROM questions WHERE uid in (%s)", (uid,))
     result = cursor.fetchall()
     return result
 
+# create questions entry
 def db_create_question(uid, datey, responder_id, questioner_id, answer):
     cursor.execute(
         "INSERT INTO specialists (uid, datey, answer, questioner_id, responder_id) VALUES (%s, %s, %s, %s, %s)",
@@ -144,16 +104,19 @@ def db_create_question(uid, datey, responder_id, questioner_id, answer):
     result = cursor.fetchall()
     return result
 
+# retrieve all patients with uid
 def get_user_name(uid):
     cursor.execute("SELECT name FROM patients WHERE uid in (%s)", (uid,))
     result = cursor.fetchall()
     return result
 
+# retrieve all professionals with uid
 def get_user_nameSPECIAL(uid):
     cursor.execute("SELECT name FROM professionals WHERE uid in (%s)", (uid,))
     result = cursor.fetchall()
     return result
 
+# user-check for hacky password solution
 def check_user(email):
     cursor.execute("SELECT uid FROM patients WHERE email in (%s)", (email,))
     result = cursor.fetchall()
@@ -162,6 +125,7 @@ def check_user(email):
         result = cursor.fetchall()
     return result[0]['uid']
 
+# password-check for hacky password solution
 def confirm_password(email, passed):
     cursor.execute("SELECT password FROM patients WHERE email in (%s)", (email,))
     result = cursor.fetchall()
@@ -172,26 +136,29 @@ def confirm_password(email, passed):
         result = cursor.fetchall()
         return passed == result[0]['password']
 
+# retrieve questions with questioner of uid
 def retrieve_user_q(uid):
     cursor.execute("SELECT * FROM questions WHERE questioner_id in (%s)", (uid,))
     return cursor.fetchall()
 
+# retrieve questions with responder of uid
 def retrieve_user_qSPECIAL(uid):
     cursor.execute("SELECT * FROM questions WHERE responder_id in (%s)", (uid,))
     return cursor.fetchall()
 
-#checking if user is patient or pro. returns true when patient, false when pro
+# checking if user is patient or pro. returns true when patient, false when pro
 def check_user_type(email):
     cursor.execute("SELECT uid FROM patients WHERE email in (%s)", (email,))
     result = cursor.fetchall()
     return True if result else False
 
+# uploads question to questions
 def upload_question(question, questioner_id):
     cursor.execute("INSERT INTO questions VALUES (NULL, (%s), NULL, (%s), NULL, (%s), NULL)", (date.today(), question, questioner_id))
     return None
 
 
- #
+# given a disorder, returns the most available specialist in that field (based on num)
 def match_specialist(disorder):
     print(disorder)
     cursor.execute("SELECT name FROM specialists WHERE disorder in (%s) GROUP BY name ORDER BY COUNT(num) ASC", (disorder,))
@@ -200,20 +167,23 @@ def match_specialist(disorder):
     print(result)
     return result
 
-
+# update responder field for questions entry
 def update_responder(question, userID, responder):
     cursor.execute("UPDATE questions SET responder = (%s) WHERE questioner_id in (%s) AND question in (%s)", (responder, userID, question))
     return responder
 
+# find responder_id for questions entry
 def find_responder_id(responder):
     cursor.execute("SELECT uid FROM professionals WHERE name in (%s)", (responder,))
     responder_id = cursor.fetchall()[0]['uid']
     return responder_id
 
+# update responder_id field for questions entry
 def update_responder_id(question, userID, responder_id):
     cursor.execute("UPDATE questions SET responder_id = (%s) WHERE questioner_id in (%s) AND question in (%s)", (responder_id, userID, question))
     return None
 
+# update answer field for questions entry
 def update_answer(question, answer):
     cursor.execute("UPDATE questions SET answer = (%s) WHERE question in (%s)",(answer, question))
     return None
@@ -448,7 +418,7 @@ def signupProfessionalFuncs():
         # if result == 'us':
         #     return render_template('signup.html', title='Signup', status='no')
 
-        # WRITE SIGNUP TO DATABASE
+        # WRITE SIGNUP TO DATABASE // TODO
     return render_template('signupProfessional.html', title='Signup Professional')
 
 if __name__ == '__main__':
